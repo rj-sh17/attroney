@@ -1,0 +1,413 @@
+﻿@using AttorneyJournal.Models.Domain.Storage
+@using AttorneyJournal.Models.ResourceModels
+@model UserTimelineModel
+
+@{
+	ViewBag.Title = "Timeline";
+	Layout = "_Layout";
+}
+
+<div class="page-header">
+	<h2>
+		Client Timeline<br />
+		<small>You can view what clients uploaded and download single or full timeline.</small>
+	</h2>
+
+	<ol class="breadcrumb">
+		<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+		<li><a asp-area="" asp-controller="Customer" asp-action="Index">Client</a></li>
+		<li class="active">Timeline</li>
+	</ol>
+
+</div>
+
+<div class="panel panel-default">
+
+	<div class="panel-heading">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-2">
+					<img class="img-responsive img-rounded" src="@Model.PhotoURL" />
+				</div>
+				<div class="col-xs-10">
+					<h3 style="margin-top: 10px;">
+						@Model.Name @Model.Surname<br />
+						<small>
+							@(Model.LastUploadedItem.HasValue ? Html.Raw("(Last event at " + @Model.LastUploadedItem.GetValueOrDefault().ToLocalTime() + ")") : Html.Raw("No event found!"))
+						</small>
+					</h3>
+					<div class="text-right @(!Model.LastUploadedItem.HasValue ? "hidden" : "")">
+						<a class="btn btn-sm btn-success exportButton"><span class="glyphicon glyphicon-download-alt"></span> Download whole contents (as zip)</a>
+						<a class="btn btn-sm btn-info hidden exportSelectedButton"><span class="glyphicon glyphicon-download-alt"></span> Download selected contents (as zip)</a>
+                        <button class="btn btn-sm btn-success" type="button" onclick="downloadPDF()"> <span class="glyphicon glyphicon-download-alt"></span>Generate PDF </button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-body">
+
+		<div class="timeline"> <!-- timeline-single-column -->
+
+			@foreach (var item in Model.Items)
+			{
+				switch (item.File.Type)
+				{
+					case FileStorageType.Image:
+
+						<span class="timeline-label">
+							<span class="label label-success">@item.CreatedAt.ToLocalTime()</span>
+						</span>
+
+						<div class="timeline-item timeline-item-arrow-sm timeline-item-left">
+							<div class="timeline-point timeline-point-success">
+								<i class="glyphicon glyphicon-picture"></i>
+							</div>
+							<div class="timeline-event @(item.File.Viewed ? "timeline-event-primary" : "timeline-event-warning")">
+								<div class="panel @(item.File.Viewed ? "panel-default" : "panel-warning")">
+									<div class="panel-heading">
+										<h3 class="panel-title">
+											<i style="margin-right: 20px;" class="glyphicon glyphicon-alert @(item.File.Viewed ? "hidden" : "")"></i>
+											@(string.IsNullOrWhiteSpace(item.File.Title) ? "A photo has been uploaded " : item.File.Title)
+											@(item.File.Viewed ? "(viewed)" : "(not viewed)")
+											<small class="pull-right" style="line-height: 20px;">@(item.File.DateTaken.HasValue ? "Created: " + item.File.DateTaken.Value.ToLocalTime() : "" ) Uploaded: @item.CreatedAt.ToLocalTime()</small>
+										</h3>
+									</div>
+									<div class="panel-body">
+										<div class="img-container text-center">
+											<img src="@item.Thumb.ObjectUrl" width="560" />
+										</div>
+									</div>
+									<div class="panel-footer" style="color: white;">
+										<div class="material-switch pull-right">
+											<input class="elementSelector" id="@item.File.Id" name="elementSelected[]" value="@item.File.Id" type="checkbox" />
+											<label for="@item.File.Id" class="label-info"></label>
+										</div>
+										<a href="@Url.Action("MarkContentAsViewed", new {id = item.File.Id, userId = Model.UserId})" class="btn btn-sm @(item.File.Viewed ? "btn-warning" : "btn-info")"><span class="glyphicon @(item.File.Viewed ? "glyphicon-eye-close" : "glyphicon-eye-open")"></span> Mark as @(item.File.Viewed ? "not" : "") Viewed</a>
+										<a href="@item.File.ObjectUrl" class="btn btn-sm btn-success" download><span class="glyphicon glyphicon-download-alt"></span> Download this content</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						break;
+					case FileStorageType.Video:
+
+						<span class="timeline-label">
+							<span class="label label-info">@item.CreatedAt.ToLocalTime()</span>
+						</span>
+
+						<div class="timeline-item timeline-item-arrow-sm timeline-item-left">
+							<div class="timeline-point timeline-point-info">
+								<i class="glyphicon glyphicon-facetime-video"></i>
+							</div>
+							<div class="timeline-event @(item.File.Viewed ? "timeline-event-primary" : "timeline-event-warning")">
+								<div class="panel @(item.File.Viewed ? "panel-default" : "panel-warning")">
+									<div class="panel-heading">
+										<h3 class="panel-title">
+											<i style="margin-right: 20px;" class="glyphicon glyphicon-alert @(item.File.Viewed ? "hidden" : "")"></i>
+											@(string.IsNullOrWhiteSpace(item.File.Title) ? "A video has been uploaded " : item.File.Title)
+											@(item.File.Viewed ? "(viewed)" : "(not viewed)")
+											<small class="pull-right" style="line-height: 20px;">@(item.File.DateTaken.HasValue ? "Created: " + item.File.DateTaken.Value.ToLocalTime() : "" ) Uploaded: @item.CreatedAt.ToLocalTime()</small>
+										</h3>
+									</div>
+									<div class="panel-body">
+                                        <video style="width: 100%; background:url('@item.Thumb.ObjectUrl');" poster="@item.Thumb.ObjectUrl" controls">
+											<source src="@item.File.ObjectUrl" type="video/quicktime">
+											Your browser does not support HTML5 video.
+										</video>
+										@*<div class="img-container video text-center">
+											<a href="@item.File.ObjectUrl" download>
+												<img src="@item.Thumb.ObjectUrl" width="560"/>
+											</a>
+										</div>*@
+									</div>
+									<div class="panel-footer" style="color: white;">
+										<div class="material-switch pull-right">
+											<input class="elementSelector" id="@item.File.Id" name="elementSelected[]" value="@item.File.Id" type="checkbox" />
+											<label for="@item.File.Id" class="label-info"></label>
+										</div>
+										<a href="@Url.Action("MarkContentAsViewed", new {id = item.File.Id, userId = Model.UserId})" class="btn btn-sm @(item.File.Viewed ? "btn-warning" : "btn-info")"><span class="glyphicon @(item.File.Viewed ? "glyphicon-eye-close" : "glyphicon-eye-open")"></span> Mark as @(item.File.Viewed ? "not" : "") Viewed</a>
+										<a href="@item.File.ObjectUrl" class="btn btn-sm btn-success" download><span class="glyphicon glyphicon-download-alt"></span> Download this content</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						break;
+
+					case FileStorageType.Text:
+
+						<span class="timeline-label">
+							<span class="label label-warning">@item.CreatedAt.ToLocalTime()</span>
+						</span>
+
+						<div class="timeline-item timeline-item-arrow-sm timeline-item-left">
+							<div class="timeline-point timeline-point-warning">
+								<i class="glyphicon glyphicon-edit"></i>
+							</div>
+							<div class="timeline-event @(item.File.Viewed ? "timeline-event-primary" : "timeline-event-warning")">
+								<div class="panel @(item.File.Viewed ? "panel-default" : "panel-warning")">
+									<div class="panel-heading">
+										<h3 class="panel-title">
+											<i style="margin-right: 20px;" class="glyphicon glyphicon-alert @(item.File.Viewed ? "hidden" : "")"></i>
+											@(string.IsNullOrWhiteSpace(item.File.Title) ? "Text message" : item.File.Title)
+											@(item.File.Viewed ? "(viewed)" : "(not viewed)")
+											<small class="pull-right" style="line-height: 20px;">Uploaded: @item.CreatedAt.ToLocalTime()</small>
+										</h3>
+									</div>
+									<div class="panel-body"  style="background-color:white;">
+										<div class="text-justify">
+											<blockquote>
+												<p style="padding: 10px;">
+													@Html.Raw(item.File.Content.Replace("\n", "<br />"))
+												</p>
+											</blockquote>
+										</div>
+									</div>
+									<div class="panel-footer" style="color: white;">
+										<div class="material-switch pull-right">
+											<input class="elementSelector" id="@item.File.Id" name="elementSelected[]" value="@item.File.Id" type="checkbox" />
+											<label for="@item.File.Id" class="label-info"></label>
+										</div>
+										<a href="@Url.Action("MarkContentAsViewed", new {id = item.File.Id, userId = Model.UserId})" class="btn btn-sm @(item.File.Viewed ? "btn-warning" : "btn-info")"><span class="glyphicon @(item.File.Viewed ? "glyphicon-eye-close" : "glyphicon-eye-open")"></span> Mark as @(item.File.Viewed ? "not" : "") Viewed</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						break;
+
+					case FileStorageType.PushNotification:
+
+						<span class="timeline-label">
+							<span class="label label-default">@item.CreatedAt.ToLocalTime()</span>
+						</span>
+
+						<div class="timeline-item timeline-item-arrow-sm timeline-item-right">
+							<div class="timeline-point timeline-point-default">
+								<i class="glyphicon glyphicon-send"></i>
+							</div>
+							<div class="timeline-event timeline-event-default">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h3 class="panel-title"> @item.File.Title <small class="pull-right" style="line-height: 20px;">@item.CreatedAt.ToLocalTime()</small>
+										</h3>
+									</div>
+									<div class="panel-body" style="background-color:white;">
+										<div class="text-justify">
+											<p style="padding: 10px;">
+												@Html.Raw(item.File.Content.Replace("\n", "<br />"))
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						break;
+					case FileStorageType.Thumb:
+						break;
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
+			}
+
+			<span class="timeline-label">
+				<span class="label label-primary">@Model.DateOfAccident.ToLocalTime()</span>
+			</span>
+
+			<div class="timeline-item">
+				<div class="timeline-point timeline-point-primary">
+					<i class="glyphicon glyphicon-user"></i>
+				</div>
+				<div class="timeline-event timeline-event-primary">
+					<div class="timeline-heading">
+						<h4>Date of Accident</h4>
+					</div>
+					<div class="timeline-body">
+						<p></p>
+					</div>
+					<div class="timeline-footer">
+						<p class="text-right">@Model.DateOfAccident.ToLocalTime()</p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	<div class="panel-footer">
+		<div class="text-right @(!Model.LastUploadedItem.HasValue ? "hidden" : "")">
+			<a class="btn btn-sm btn-success exportButton"><span class="glyphicon glyphicon-download-alt"></span> Download whole contents (as zip)</a>
+			<a class="btn btn-sm btn-info hidden exportSelectedButton"><span class="glyphicon glyphicon-download-alt"></span> Download selected contents (as zip)</a>
+		</div>
+	</div>
+</div>
+
+<!-- Creates the bootstrap modal where the image will appear -->
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">Image preview</h4>
+			</div>
+			<div class="modal-body">
+				<img src="" id="imagepreview" style="width: 100%;">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts
+{
+	<script>
+
+		var userId = '@Model.UserId';
+
+		var waitingDialog = waitingDialog ||
+		(function($) {
+			'use strict';
+
+			// Creating modal dialog's DOM
+			var $dialog = $(
+				'<div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">' +
+				'<div class="modal-dialog modal-m">' +
+				'<div class="modal-content">' +
+				'<div class="modal-header"><h3 style="margin:0;"></h3></div>' +
+				'<div class="modal-body">' +
+				'<div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>' +
+				'</div>' +
+				'</div></div></div>');
+
+			return {
+				show: function(message, options) {
+					// Assigning defaults
+					if (typeof options === 'undefined') {
+						options = {};
+					}
+					if (typeof message === 'undefined') {
+						message = 'Loading';
+					}
+					var settings = $.extend({
+							dialogSize: 'm',
+							progressType: '',
+							onHide: null // This callback runs after the dialog was hidden
+						},
+						options);
+
+					// Configuring dialog
+					$dialog.find('.modal-dialog').attr('class', 'modal-dialog').addClass('modal-' + settings.dialogSize);
+					$dialog.find('.progress-bar').attr('class', 'progress-bar');
+					if (settings.progressType) {
+						$dialog.find('.progress-bar').addClass('progress-bar-' + settings.progressType);
+					}
+					$dialog.find('h3').text(message);
+					// Adding callbacks
+					if (typeof settings.onHide === 'function') {
+						$dialog.off('hidden.bs.modal').on('hidden.bs.modal',
+							function(e) {
+								settings.onHide.call($dialog);
+							});
+					}
+					// Opening dialog
+					$dialog.modal();
+				},
+				/**
+				 * Closes dialog
+				 */
+				hide: function() {
+					$dialog.modal('hide');
+				}
+			};
+
+		})(jQuery);
+
+		$(function() {
+			$(document).on('click',
+				'.img-container',
+				function (e) {
+					var clickedImg = $(e.target).is('img') ? $(e.target).attr('src') : $(e.target).find('img').attr('src');
+					if (clickedImg.hasClass('video')) return;
+					$('#imagepreview').attr('src', clickedImg); // here asign the image to the modal when the user click the enlarge link
+					$('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
+				});
+
+			$(document).on('click',
+				'.exportButton',
+				function(e) {
+					e.preventDefault();
+					waitingDialog.show('Exporting, please wait...');
+					
+					var dataToSend = { Id: userId, ListIds: null };
+					//console.log(JSON.stringify(dataToSend));
+
+					$.post('/Customer/DownloadTimeline', dataToSend, function(data) {
+						window.location.href = data.url;
+						waitingDialog.hide();
+					});
+				});
+
+			$(document).on('click',
+				'.exportSelectedButton',
+				function(e) {
+					e.preventDefault();
+					waitingDialog.show('Exporting, please wait...');
+
+					var listId = new Array();
+					$("input[type='checkbox']:checked").each(function() {
+						listId.push($(this).val());
+					});
+					//console.log(listId);
+
+					var dataToSend = { Id: userId, ListIds: listId };
+					//console.log(JSON.stringify(dataToSend));
+
+					$.post('/Customer/DownloadTimeline', dataToSend, function(data) {
+						window.location.href = data.url;
+						waitingDialog.hide();
+					});
+				});
+
+			// Visibility to selected export button.
+			$('.elementSelector').change(function() {
+				if ($("input[type='checkbox']:checked").length > 0) {
+					$('.exportSelectedButton').removeClass('hidden');
+				} else {
+					$('.exportSelectedButton').addClass('hidden');
+				}
+			});
+        });
+
+        function downloadPDF() {
+            var HTML_Width = $(".timeline").width();
+            var HTML_Height = $(".timeline").height();
+            var top_left_margin = 5;
+            var PDF_Width = HTML_Width + (top_left_margin * 2);
+            var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 5);
+            var canvas_image_width = HTML_Width;
+            var canvas_image_height = HTML_Height;
+
+            var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+            html2canvas($(".timeline")[0], { allowTaint: false,useCORS: true, width: HTML_Width + 10, height: HTML_Height + 250 }).then(function (canvas) {
+                canvas.getContext('2d');
+                var imgData = canvas.toDataURL("image/png", 1.0);
+                var pdf = new jsPDF('p', 'pt', [PDF_Width+50, PDF_Height]);
+                pdf.addImage(imgData, 'PNG', 1, 1, canvas_image_width, canvas_image_height);
+
+                for (var i = 1; i <= totalPDFPages; i++) {
+                    pdf.addPage(PDF_Width+50, PDF_Height);
+                    pdf.addImage(imgData, 'PNG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+                }
+
+                pdf.save("HTML-Document.pdf");
+            });
+        };
+        
+	</script>
+}

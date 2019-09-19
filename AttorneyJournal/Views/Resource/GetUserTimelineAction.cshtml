@@ -1,0 +1,17 @@
+﻿@model AttorneyJournal.Models.ResourceModels.UserTimelineModel
+
+@{
+	ViewBag.Title = "TimeLine Example";
+	Layout = "_Layout";
+}
+
+<h2>TimeLine Example</h2>
+
+@foreach (var item in Model.Items)
+{
+	<div class="row">
+		<div class="pull-left col-lg-6">@item.CreatedAt.ToLocalTime()</div>
+		<div class="pull-right col-lg-6">@item.ObjectKey</div>
+		<div class="col-lg-12">@Url.Action("StreamFileFromS3", new { key = item.ObjectKey})</div>
+	</div>
+}

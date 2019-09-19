@@ -1,0 +1,104 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <UserSecretsId>aspnet-AttorneyJournal-b9f07cfb-077c-4b97-85c7-285a7e12ea60</UserSecretsId>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>False</Optimize>
+    <DocumentationFile>wwwroot/ApiDoc.xml</DocumentationFile>
+    <OutputPath>bin/Debug/netcoreapp1.1</OutputPath>
+    <NoWarn>1701;1702;1705;CS1591</NoWarn>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <Optimize>False</Optimize>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\Resource\**" />
+    <Content Remove="Views\Resource\**" />
+    <EmbeddedResource Remove="Views\Resource\**" />
+    <None Remove="Views\Resource\**" />
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <Content Include="wwwroot\images\logo.png" />
+    <Content Include="wwwroot\template\export_template\config\bootstrap.css" />
+    <Content Include="wwwroot\template\export_template\config\bootstrap.js" />
+    <Content Include="wwwroot\template\export_template\config\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="wwwroot\template\export_template\config\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="wwwroot\template\export_template\config\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="wwwroot\template\export_template\config\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="wwwroot\template\export_template\config\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="wwwroot\template\export_template\config\jquery.js" />
+    <Content Include="wwwroot\template\export_template\config\site.css" />
+    <Content Include="wwwroot\template\export_template\config\site.js" />
+    <Content Include="wwwroot\template\export_template\image.html" />
+    <Content Include="wwwroot\template\export_template\openME.html" />
+    <Content Include="wwwroot\template\export_template\text.html" />
+    <Content Include="wwwroot\template\export_template\video.html" />
+  </ItemGroup>-->
+  <ItemGroup>
+    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="1.0.0" />
+    <PackageReference Include="AsyncEnumerator" Version="2.1.1" />
+    <PackageReference Include="AWSSDK.Core" Version="3.3.22" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.5" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.18" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
+    <PackageReference Include="OneSignal.CSharp.SDK.Core" Version="1.0.2" />
+    <PackageReference Include="OpenIddict" Version="1.0.0-beta2-0614" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="1.0.0-beta2-0614" />
+    <PackageReference Include="OpenIddict.Mvc" Version="1.0.0-beta2-0614" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
+    <PackageReference Include="Remotion.Linq" Version="2.2.0" />
+    <PackageReference Include="RestSharp.NetCore" Version="105.2.4-rc4-24214-01" />
+    <PackageReference Include="Stripe.net" Version="29.1.0" />
+    <!--<PackageReference Include="Swashbuckle.AspNetCore" Version="2.4.0" />-->
+    <PackageReference Include="System.IO" Version="4.3.0" />
+    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.1" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.1" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
+  </ItemGroup>
+  <!--<ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>-->
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Lib\PushSharp.Apple.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\PushSharp.Core.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

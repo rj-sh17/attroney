@@ -1,0 +1,21 @@
+@using AttorneyJournal.Models.HomeViewModels
+@model SendFeedbackViewModel
+
+@{
+	ViewBag.Title = "Send Feedback";
+	Layout = "_Layout";
+}
+
+<h2>Send Feedback</h2>
+
+<form asp-controller="Home" asp-action="SendFeedback" method="post" class="form">
+	<h4>Please send us your feedback or any help request by using the following form</h4>
+	<hr />
+	<div class="form-group">
+		<label asp-for="Feedback" class="control-label"></label>
+		<textarea rows="5" cols="200" asp-for="Feedback" class="form-control"></textarea>
+	</div>
+	<div class="form-group">
+		<button type="submit" class="btn btn-default">Send Feedback</button>
+	</div>
+</form>

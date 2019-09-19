@@ -1,0 +1,46 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="active"><a href="@Url.Action("Index")">Home</a></li>
+	</ol>
+</div>
+
+<div class="panel panel-default">
+
+	<div class="panel-heading text-left">
+		<h3>
+			Latest Events<br />
+			<small>Latest submissions by clients.</small>
+		</h3>
+	</div>
+
+	<div class="panel-body">
+
+		<div class="well">
+			<div class="media">
+				<a class="pull-left" href="#">
+					<img class="img-circle media-object" src="http://placekitten.com/150/150">
+				</a>
+				<div class="media-body">
+					<h4 class="media-heading">Title 1</h4>
+					<p class="text-right">By John Doe</p>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate.
+						Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis
+						dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan.
+						Aliquam in felis sit amet augue.
+					</p>
+					<ul class="list-inline list-unstyled">
+						<li><span><i class="glyphicon glyphicon-calendar"></i> @DateTime.UtcNow.ToLocalTime() </span></li>
+						<li>|</li>
+						<li><span><a href="@Url.Action("ViewTimeline", "Customer", new { id= Guid.NewGuid()})"> <i class="glyphicon glyphicon-arrow-right"></i> Go to timeline</a></span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

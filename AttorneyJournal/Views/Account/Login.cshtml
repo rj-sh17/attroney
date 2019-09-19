@@ -1,0 +1,182 @@
+﻿@model LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Log in";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<h2>@ViewData["Title"].</h2>
+<div class="row">
+    <div class="col-md-8">
+        <section>
+            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData[" ReturnUrl"]" method="post" class="form-horizontal">
+                <h4>Please enter your credentials to log in</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Email" id="name11" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Password" id="pwd2" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <div class="checkbox">
+                            <label asp-for="RememberMe">
+                                <input asp-for="RememberMe" id="rem2" />
+                                @Html.DisplayNameFor(m => m.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" onclick="openModalValueBind()" data-target="#myModal">Log in</button>
+                    </div>
+                </div>
+                @*<p>
+                        <a asp-action="Register" asp-route-returnurl="@ViewData[" ReturnUrl"]">Register as a new user?</a>
+                    </p>*@
+                <p>
+                    <a asp-action="ForgotPassword">Forgot your password?</a>
+                </p>
+            </form>
+        </section>
+    </div>
+    @*<div class="col-md-4">
+            <section>
+                <h4>Use another service to log in.</h4>
+                <hr />
+                @{
+                    var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
+                    if (loginProviders.Count == 0)
+                    {
+                        <div>
+                            <p>
+                                There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                                for details on setting up this ASP.NET application to support logging in via external services.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                            <div>
+                                <p>
+                                    @foreach (var provider in loginProviders)
+                                    {
+                                        <button type="submit" class="btn btn-default" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">@provider.AuthenticationScheme</button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
+                }
+            </section>
+        </div>*@
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData[" ReturnUrl"]" method="post" class="form-horizontal">
+                    <h4>Please enter your credentials to log in</h4>
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group" hidden>
+                        <label asp-for="Email" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="Email" id="name11" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" hidden>
+                        <label asp-for="Password" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="Password" id="pwd2" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" hidden>
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="checkbox">
+                                <label asp-for="RememberMe">
+                                    <input asp-for="RememberMe" id="rem2" />
+                                    @Html.DisplayNameFor(m => m.RememberMe)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" onclick="skip()" class="btn btn-default">Skip</button>
+                    <button type="button" class="btn btn-default" onclick="payNow()">Pay Now</button>
+                    @*<p>
+                            <a asp-action="Register" asp-route-returnurl="@ViewData[" ReturnUrl"]">Register as a new user?</a>
+                        </p>*@
+                    <p>
+                        <a asp-action="ForgotPassword">Forgot your password?</a>
+                    </p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+    function payNow() {
+            debugger
+            $("#myModal").modal('hide')
+            $.ajax({
+                type: "POST",
+                url: "/Account/PaymentStrip",
+                data: JSON.stringify(Student),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    alert(data.msg);
+                },
+                error: function () {
+                    alert("Error occured!!")
+                }
+            });
+
+        }
+
+        function openModalValueBind() {
+            var usr = document.getElementById("name11").value;
+            var pas = document.getElementById("pwd2").value;
+            var rem = document.getElementById("rem2").value;
+            document.getElementById("name1").value = usr;
+            document.getElementById("pwd1").value = pas;
+            document.getElementById("rem1").value = rem;
+            document.getElementById("rem1").value = rem;
+            console.log(document.getElementById($("#myModal").modal('hide)
+            }
+        function skip() {
+            $("#myModal").modal('hide')
+        }
+
+    </script>
+
+}

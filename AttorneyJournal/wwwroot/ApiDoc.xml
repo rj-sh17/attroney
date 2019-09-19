@@ -1,0 +1,438 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AttorneyJournal</name>
+    </assembly>
+    <members>
+        <member name="M:AttorneyJournal.Controllers.AccountController.RegisterWithRegistrationCode(AttorneyJournal.Models.AccountViewModels.RegisterViewModel)">
+            <summary>
+            Registration API.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Controllers.AccountController.ForgotPasswordMobile(System.String)">
+            <summary>
+            Password recovery.
+            </summary>
+            <param name="mail"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AttorneyJournal.Controllers.AuthorizationController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AttorneyJournal.Controllers.AuthorizationController.#ctor(OpenIddict.Core.OpenIddictApplicationManager{OpenIddict.Models.OpenIddictApplication},Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Builder.IdentityOptions},Microsoft.AspNetCore.Identity.SignInManager{AttorneyJournal.Models.ApplicationUser},Microsoft.AspNetCore.Identity.UserManager{AttorneyJournal.Models.ApplicationUser})">
+            <summary>
+            
+            </summary>
+            <param name="applicationManager"></param>
+            <param name="identityOptions"></param>
+            <param name="signInManager"></param>
+            <param name="userManager"></param>
+        </member>
+        <member name="M:AttorneyJournal.Controllers.AuthorizationController.Accept(AspNet.Security.OpenIdConnect.Primitives.OpenIdConnectRequest)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Controllers.AuthorizationController.Exchange(AspNet.Security.OpenIdConnect.Primitives.OpenIdConnectRequest)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Controllers.AuthorizationController.CreateTicketAsync(Microsoft.AspNetCore.Identity.SignInManager{AttorneyJournal.Models.ApplicationUser},Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Builder.IdentityOptions},AspNet.Security.OpenIdConnect.Primitives.OpenIdConnectRequest,AttorneyJournal.Models.ApplicationUser,Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties)">
+            <summary>
+            
+            </summary>
+            <param name="signInManager"></param>
+            <param name="identityOptions"></param>
+            <param name="request"></param>
+            <param name="user"></param>
+            <param name="properties"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AttorneyJournal.Controllers.CustomerController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AttorneyJournal.Controllers.CustomerController.PushNotificationModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AttorneyJournal.Controllers.CustomerController.SendPushNotification(AttorneyJournal.Controllers.CustomerController.PushNotificationModel)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Controllers.CustomerController.DownloadTimeline(AttorneyJournal.Controllers.CustomerController.RequestTimelinePayload)">
+            <summary>
+            
+            </summary>
+            <param name="payload"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Controllers.CustomerController.MarkContentAsViewed(System.Guid,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Controllers.ResourceController.Upload">
+            <summary>
+            Headers:
+            "unique-upload-id": Generate a GUID in this form 4A569ACC-FF6B-4FE0-8EAA-7F97774E2E3D
+            "upload-type": video | image | thumb
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Controllers.ResourceController.AddTextualContext(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Controllers.ResourceController.StreamFileFromS3(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Controllers.ResourceController.GetUserTimeline">
+            <summary>
+            Get User line
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:AttorneyJournal.Helpers.AmazonS3Helper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AttorneyJournal.Helpers.AmazonS3Helper.#ctor(Amazon.S3.IAmazonS3,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="amazonS3"></param>
+            <param name="bucketName"></param>
+        </member>
+        <member name="M:AttorneyJournal.Helpers.AmazonS3Helper.UploadFileAsync(System.String,System.String,System.String,Amazon.S3.S3StorageClass)">
+            <summary>
+            
+            </summary>
+            <param name="filePath"></param>
+            <param name="key"></param>
+            <param name="bucketName"></param>
+            <param name="storageClass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Helpers.AmazonS3Helper.DownloadFileAsync(System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="objectKey"></param>
+            <param name="targetFilePath"></param>
+            <param name="bucketName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Helpers.AmazonS3Helper.PrepareZip(AttorneyJournal.Models.ResourceModels.UserTimelineModel)">
+            <summary>
+            
+            </summary>
+            <param name="timelineModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Helpers.AmazonS3Helper.GenerateUrl(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <param name="bucketName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Helpers.AmazonS3Helper.Dispose">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.MimeTypesHelper.FallbackMimeType">
+            <summary>
+            The fallback MIME-type. Defaults to <c>application/octet-stream</c>.
+            </summary>
+        </member>
+        <member name="M:AttorneyJournal.MimeTypesHelper.GetMimeType(System.String)">
+            <summary>
+            Gets the MIME-type for the given file name,
+            or <see cref="P:AttorneyJournal.MimeTypesHelper.FallbackMimeType"/> if a mapping doesn't exist.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <returns>The MIME-type for the given file name.</returns>
+        </member>
+        <member name="T:AttorneyJournal.Models.AccountViewModels.CreateClientViewModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.AccountViewModels.CreateClientViewModel.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.AccountViewModels.CreateClientViewModel.Surname">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.AccountViewModels.CreateClientViewModel.Email">
+            <summary>
+            A valid mail.
+            </summary>
+        </member>
+        <member name="T:AttorneyJournal.Models.AccountViewModels.RegisterViewModel">
+            <summary>
+            Provide user information data for registration.
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.AccountViewModels.RegisterViewModel.Email">
+            <summary>
+            A valid mail.
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.AccountViewModels.RegisterViewModel.Password">
+            <summary>
+            The Password must be at least 6 and at max 32 characters long.
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.AccountViewModels.RegisterViewModel.ConfirmPassword">
+            <summary>
+            The confirmation password must match inserted password.
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.AccountViewModels.RegisterViewModel.DateOfAccident">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.AccountViewModels.RegisterViewModel.ProfileImage">
+            <summary>
+            Base64 image format JPEG.
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.AttorneyViewModels.CreateAttorneyViewModel.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.AttorneyViewModels.CreateAttorneyViewModel.Surname">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.AttorneyViewModels.CreateAttorneyViewModel.Email">
+            <summary>
+            A valid mail.
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.CustomerViewModels.AssignToCustomerViewModel.Email">
+            <summary>
+                A valid mail.
+            </summary>
+        </member>
+        <member name="T:AttorneyJournal.Models.Domain.Attorney">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.Domain.Attorney.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.Domain.Attorney.Surname">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.Domain.Attorney.AttorneyUserId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.HomeViewModels.SendFeedbackViewModel.Feedback">
+            <summary>
+                Some text.
+            </summary>
+        </member>
+        <member name="T:AttorneyJournal.Models.HttpResponseMessageWithError">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AttorneyJournal.Models.HttpResponseMessageWithError.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AttorneyJournal.Models.HttpResponseMessageWithError.#ctor(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String})">
+            <summary>
+            
+            </summary>
+            <param name="errors"></param>
+            <param name="modelErrors"></param>
+        </member>
+        <member name="P:AttorneyJournal.Models.HttpResponseMessageWithError.Errors">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.HttpResponseMessageWithError.ModelErrors">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AttorneyJournal.Models.HttpResponseMessageExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AttorneyJournal.Models.HttpResponseMessageExtensions.SetResponseAndReturn(Microsoft.AspNetCore.Mvc.Controller,System.Collections.Generic.List{System.String},System.Net.HttpStatusCode)">
+            <summary>
+            
+            </summary>
+            <param name="controller"></param>
+            <param name="errors"></param>
+            <param name="statusCode"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AttorneyJournal.Models.ResourceModels.PreRegistrationModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.ResourceModels.PreRegistrationModel.Code">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.ResourceModels.PreRegistrationModel.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.ResourceModels.PreRegistrationModel.Surname">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.ResourceModels.PreRegistrationModel.Mail">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AttorneyJournal.Models.ResourceModels.UserTimelineModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.ResourceModels.UserTimelineModel.Items">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.ResourceModels.UserTimelineModel.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.ResourceModels.UserTimelineModel.Surname">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.ResourceModels.UserTimelineModel.UserId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AttorneyJournal.Models.ResourceModels.UserTimelineModel.LastUploadedItem">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AttorneyJournal.Services.AuthMessageSender">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AttorneyJournal.Services.AuthMessageSender.#ctor(Microsoft.Extensions.Options.IOptions{AttorneyJournal.Models.ConfigurationModels.EmailSettings})">
+            <summary>
+            
+            </summary>
+            <param name="emailSettings"></param>
+        </member>
+        <member name="M:AttorneyJournal.Services.AuthMessageSender.SendEmailAsync(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="email"></param>
+            <param name="subject"></param>
+            <param name="message"></param>
+            <param name="name"></param>
+            <param name="surname"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Services.AuthMessageSender.SendSmsAsync(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="number"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AttorneyJournal.Services.AuthMessageSender.SendMail(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="subject"></param>
+            <param name="to"></param>
+            <param name="body"></param>
+            <param name="name"></param>
+            <param name="surname"></param>
+        </member>
+        <member name="T:AttorneyJournal.Services.RenderViewService">
+            <summary>
+            https://gist.github.com/ahmad-moussawi/1643d703c11699a6a4046e57247b4d09
+            </summary>
+        </member>
+        <member name="M:AttorneyJournal.Services.RenderViewService.#ctor(Microsoft.AspNetCore.Mvc.Razor.IRazorViewEngine,Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataProvider,System.IServiceProvider)">
+            <summary>
+            
+            </summary>
+            <param name="viewEngine"></param>
+            <param name="tempDataProvider"></param>
+            <param name="serviceProvider"></param>
+        </member>
+        <member name="M:AttorneyJournal.Services.RenderViewService.Render``1(System.String,``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TModel"></typeparam>
+            <param name="name"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

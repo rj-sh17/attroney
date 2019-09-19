@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<title>Timeline - Visual Evidence Recorder - *|NAME|* *|SURNAME|*</title>    
+        <link rel="stylesheet" href="./config/bootstrap.css">
+        <link rel="stylesheet" href="./config/site.css">
+	</head>
+	<body>
+		<div class="container body-content">
+			<div class="panel panel-default">
+				
+				<div class="panel-heading">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-2">
+								<img class="img-responsive img-rounded" src="./files/*|PHOTO-FILENAME|*" />
+							</div>
+							<div class="col-xs-10">
+								<h3 style="margin-top: 10px;">
+									*|NAME|* *|SURNAME|*
+								</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel-body">
+					<div class="timeline">
+						
+						<!-- DateOfAccident -->
+						<span class="timeline-label">
+							<span class="label label-primary">*|DATEACCIDENT|*</span>
+						</span>
+						<div class="timeline-item">
+							<div class="timeline-point timeline-point-primary">
+								<i class="glyphicon glyphicon-user"></i>
+							</div>
+							<div class="timeline-event timeline-event-primary">
+								<div class="timeline-heading">
+									<h4>Date of Accident</h4>
+								</div>
+								<div class="timeline-body">
+									<p></p>
+								</div>
+								<div class="timeline-footer">
+									<p class="text-right">*|DATEACCIDENT|*</p>
+								</div>
+							</div>
+						</div>
+
+						*|CONTENT|*
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Creates the bootstrap modal where the image will appear -->
+			<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="myModalLabel">Image preview</h4>
+						</div>
+						<div class="modal-body">
+							<img src="" id="imagepreview" style="width: 100%;">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<hr>
+			<footer>
+				<p>© 2017 - Visual Evidence Recorder</p>
+			</footer>
+
+		</div>
+
+		<script src="./config/jquery.js"></script>
+		<script src="./config/bootstrap.js"></script>
+		<script src="./config/site.js"></script>
+		<script>
+			$(function () {
+				$(document).on('click', '.img-container',
+					function (e) {
+						var clickedImg = $(e.target).is('img') ? $(e.target).attr('src') : $(e.target).find('img').attr('src');
+						$('#imagepreview').attr('src', clickedImg); // here asign the image to the modal when the user click the enlarge link
+						$('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
+					});
+			});
+		</script>
+
+	</body>
+</html>
