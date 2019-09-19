@@ -146,13 +146,11 @@
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script>
         function payNow() {
-            debugger
             $.ajax({
                 type: "POST",
                 url: "/Account/PaymentStrip",
                 contentType: 'application/json; charset=utf-8',
                 success: function () {
-                    alert("bkjj");
                     $("#myModal").modal('hide');
 
                 },
