@@ -100,7 +100,7 @@
                     <h4>Please enter your credentials to log in</h4>
                     <hr />
                     <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group" hidden>
+                    <div class="form-group">
                         <label asp-for="Email" class="col-md-2 control-label"></label>
                         <div class="col-md-10">
                             <input asp-for="Email" id="name11" class="form-control" />
@@ -145,16 +145,16 @@
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script>
-    function payNow() {
+        function payNow() {
             debugger
-            $("#myModal").modal('hide')
             $.ajax({
                 type: "POST",
                 url: "/Account/PaymentStrip",
-                data: JSON.stringify(Student),
                 contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    alert(data.msg);
+                success: function () {
+                    alert("bkjj");
+                    $("#myModal").modal('hide');
+
                 },
                 error: function () {
                     alert("Error occured!!")
@@ -170,9 +170,7 @@
             document.getElementById("name1").value = usr;
             document.getElementById("pwd1").value = pas;
             document.getElementById("rem1").value = rem;
-            document.getElementById("rem1").value = rem;
-            console.log(document.getElementById($("#myModal").modal('hide)
-            }
+        }
         function skip() {
             $("#myModal").modal('hide')
         }
